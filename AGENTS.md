@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep imported page markup and interaction components in their route file to preserve source structure during repairs.
+- Keep the investigation’s fictional scenario data and filter logic in a browser-safe module; never present these examples as live detections.
