@@ -1,20 +1,45 @@
-import type { CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Button } from "@/components/ui/button";
+import { Activity, Building2, Gauge, Globe, Pause, Play, RotateCcw, ShieldAlert, X } from "lucide-react";
+import { filterInvestigations, type Environment } from "@/lib/investigation";
 import { createFileRoute } from "@tanstack/react-router";
 import capturedCSS from "../styles/site.css?raw";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "Overview · SmartGrid Sentinel" }] }),
+  head: () => ({ meta: [
+    { title: "Overview & Investigation · SmartGrid Sentinel" },
+    { name: "description", content: "Explore AMI and SCADA alerts and replay fictional data-theft scenarios across grid locations." },
+    { property: "og:title", content: "Overview & Investigation · SmartGrid Sentinel" },
+    { property: "og:description", content: "Explore suspected data-theft paths, affected assets, and synthetic incident evidence." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   staticData: { importedDocument: { html: { "className": "dark", "lang": "en" }, body: {  } } },
   component: Index,
 });
 
 function Index() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [phone, setPhone] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)');
+    const update = () => { setPhone(media.matches); setSidebarOpen(!media.matches); };
+    update(); media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') { setSidebarOpen(false); triggerRef.current?.focus(); } };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
   return (
     <>
       <style>{capturedCSS}</style>
       <div className={"flex min-h-svh w-full \x68as-[[\x64ata-variant=\x69nset]]:\x62g-sidebar"} style={{ "--sidebar-width": "16rem", "--sidebar-width-icon": "3rem" } as CSSProperties}>
         <div className="flex min-h-screen w-full">
-          <div className={"group peer hidden text-sidebar-foreground \x6dd:\x62lock"} data-variant="sidebar" data-side="left">
+          {phone && sidebarOpen && <Button className="sidebar-dismiss" aria-label="Close navigation" onClick={() => { setSidebarOpen(false); triggerRef.current?.focus(); }} variant="ghost" />}
+          <div className={"import-sidebar group peer hidden text-sidebar-foreground \x6dd:\x62lock"} data-state={sidebarOpen ? "expanded" : "collapsed"} role={phone && sidebarOpen ? "dialog" : undefined} aria-label="Navigation" data-variant="sidebar" data-side="left">
             <div className={"relative \x77-(\x2d-sidebar-width) bg-transparent transition-[width] duration-200 ease-linear \x67roup-data-[\x63ollapsible=\x6fffcanvas]:\x77-0 \x67roup-data-[\x73ide=\x72ight]:\x72otate-180 \x67roup-data-[\x63ollapsible=\x69con]:\x77-(\x2d-sidebar-width-icon)"} />
             <div className={"fixed \x69nset-y-0 z-10 hidden h-svh \x77-(\x2d-sidebar-width) transition-[left,right,width] duration-200 ease-linear \x6dd:\x66lex left-0 \x67roup-data-[\x63ollapsible=\x6fffcanvas]:\x6ceft-[\x63alc(\x76ar(\x2d-sidebar-width)*\x2d1)] \x67roup-data-[\x63ollapsible=\x69con]:\x77-(\x2d-sidebar-width-icon) \x67roup-data-[\x73ide=\x6ceft]:\x62order-r \x67roup-data-[\x73ide=\x72ight]:\x62order-l \x62order-sidebar-border"}>
               <div className={"flex h-full w-full flex-col \x62g-sidebar \x67roup-data-[\x76ariant=\x66loating]:\x72ounded-lg \x67roup-data-[\x76ariant=\x66loating]:\x62order \x67roup-data-[\x76ariant=\x66loating]:\x62order-sidebar-border \x67roup-data-[\x76ariant=\x66loating]:\x73hadow"} data-sidebar="sidebar">
@@ -166,13 +191,13 @@ function Index() {
             </div>
           </div>
           <main className={"relative flex w-full flex-1 flex-col \x6dd:\x70eer-data-[\x76ariant=\x69nset]:\x6d-2 \x6dd:\x70eer-data-[\x73tate=\x63ollapsed]:\x70eer-data-[\x76ariant=\x69nset]:\x6dl-2 \x6dd:\x70eer-data-[\x76ariant=\x69nset]:\x6dl-0 \x6dd:\x70eer-data-[\x76ariant=\x69nset]:\x72ounded-xl \x6dd:\x70eer-data-[\x76ariant=\x69nset]:\x73hadow min-w-0 bg-background"}>
-            <ImportedHeader />
+            <ImportedHeader expanded={sidebarOpen} triggerRef={triggerRef} onToggle={() => setSidebarOpen(open => !open)} />
             <div className={"mx-auto w-full max-w-[1600px] flex-1 \x73pace-y-5 px-4 py-5 md:px-6"}>
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div className="min-w-0 max-w-3xl">
                   <p className="eyebrow mb-1.5">Security operations · Research prototype</p>
                   <h1 className="text-xl font-semibold tracking-tight text-foreground">Overview</h1>
-                  <p className="mt-1 text-sm text-muted-foreground">Explainable AMI &amp; SCADA data theft detection. All records are synthetic research data served by the FastAPI backend.</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Explainable AMI &amp; SCADA data theft detection. Captured research records and fictional investigation scenarios. No live grid connection.</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <div className={"inline-flex items-center rounded-md \x62order px-2 py-0.5 text-[11px] font-medium tracking-wide whitespace-nowrap transition-colors \x66ocus:\x6futline-none \x66ocus:\x72ing-2 \x66ocus:\x72ing-ring \x66ocus:\x72ing-offset-2 \x62order-dashed \x62order-synthetic/\x345 bg-transparent text-synthetic gap-1"}><svg className="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /><path d="M6.453 15h11.094" /><path d="M8.5 2h7" /></svg>Synthetic data</div>
@@ -279,6 +304,7 @@ function Index() {
                   <p className="mt-1 text-xs text-muted-foreground">Needs review</p>
                 </div>
               </div>
+              <TheftInvestigation />
               <div className="grid gap-4 lg:grid-cols-2">
                 <ImportedSectionAMIVsSCADAEvents />
                 <ImportedSectionGroundTruthScenarioDistribution />
@@ -296,29 +322,14 @@ function Index() {
   );
 }
 
-function ImportedHeader() {
-  return (
-    <header className={"sticky top-0 z-20 flex h-12 items-center gap-3 \x62order-b \x62order-border \x62g-background/\x390 px-3 \x62ackdrop-blur"}>
-      <button className={"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium cursor-pointer transition-colors \x66ocus-visible:\x6futline-none \x66ocus-visible:\x72ing-1 \x66ocus-visible:\x72ing-ring \x64isabled:\x70ointer-events-none disabled:opacity-50 \x64isabled:\x63ursor-not-allowed [&\x5fsvg]:\x70ointer-events-none [&\x5fsvg]:\x73ize-4 [&\x5fsvg]:\x73hrink-0 hover:bg-accent h-7 w-7 text-muted-foreground hover:text-foreground"} data-sidebar="trigger" aria-expanded="true">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <rect width="18" height="18" x="3" y="3" rx="2" />
-          <path d="M9 3v18" />
-        </svg>
-        <span className={"\x73r-only"}>Toggle Sidebar</span>
-      </button>
-      <div className="h-5 w-px bg-border" />
-      <span className="flex items-center gap-2 text-xs">
-        <span className={"relative inline-block size-2 rounded-full \x62g-current text-success"} />
-        <span className="font-medium text-success">Connected</span>
-        <span className={"hidden font-mono text-muted-foreground \x73m:\x69nline"}>42630 ms</span>
-      </span>
-      <a className={"hidden truncate font-mono text-[11px] text-muted-foreground hover:text-foreground \x6dd:\x62lock"} href="/settings" title="Change in System Settings">https://smart-grid-sentinel-backend.onrender.com</a>
-      <div className="ml-auto flex items-center gap-3">
-        <span className={"hidden text-[11px] text-muted-foreground \x6dd:\x69nline"}>Last check 7:58:37 PM</span>
-        <button className={"inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium cursor-pointer transition-colors \x66ocus-visible:\x6futline-none \x66ocus-visible:\x72ing-1 \x66ocus-visible:\x72ing-ring \x64isabled:\x70ointer-events-none disabled:opacity-50 \x64isabled:\x63ursor-not-allowed [&\x5fsvg]:\x70ointer-events-none [&\x5fsvg]:\x73ize-4 [&\x5fsvg]:\x73hrink-0 \x62order \x73hadow-sm hover:bg-accent hover:text-accent-foreground rounded-md px-3 text-xs h-8 \x62order-border-strong bg-transparent"}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></svg>Refresh</button>
-      </div>
-    </header>
-  );
+function ImportedHeader({ expanded, onToggle, triggerRef }: { expanded: boolean; onToggle: () => void; triggerRef: React.RefObject<HTMLButtonElement | null> }) {
+  const [updated, setUpdated] = useState('Captured snapshot');
+  return <header className="sticky top-0 z-20 flex h-12 items-center gap-3 border-b border-border bg-background px-3">
+    <Button ref={triggerRef} variant="ghost" size="icon" aria-label="Toggle Sidebar" aria-expanded={expanded} onClick={onToggle}><Building2 /></Button>
+    <span className="investigation-badge"><Activity className="size-3" />Synthetic snapshot</span>
+    <span className="ml-auto text-xs text-muted-foreground" role="status">{updated}</span>
+    <Button variant="investigation" size="sm" onClick={() => setUpdated(`Reviewed ${new Date().toLocaleTimeString()}`)}><RotateCcw />Refresh</Button>
+  </header>;
 }
 
 function ImportedSectionAMIVsSCADAEvents() {
@@ -601,7 +612,7 @@ function ImportedSectionBackendConnection() {
     <section className="panel flex min-w-0 flex-col">
       <header className={"flex flex-wrap items-start justify-between gap-3 \x62order-b \x62order-border px-4 py-3"}>
         <div className="min-w-0">
-          <h2 className="text-sm font-semibold text-foreground">Backend connection</h2>
+          <h2 className="text-sm font-semibold text-foreground">Captured source connection</h2>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <svg className="size-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -613,7 +624,7 @@ function ImportedSectionBackendConnection() {
         <div className={"\x73pace-y-4"}>
           <span className="flex items-center gap-2 text-xs">
             <span className={"relative inline-block size-2 rounded-full \x62g-current text-success"} />
-            <span className="font-medium text-success">Connected</span>
+            <span className="font-medium text-muted-foreground">Import-time snapshot · not live</span>
           </span>
           <dl className={"\x64ivide-y \x64ivide-border text-sm"}>
             <div className="grid grid-cols-[minmax(0,10rem)_1fr] gap-3 py-2">
@@ -642,4 +653,57 @@ function ImportedSectionBackendConnection() {
       </div>
     </section>
   );
+}
+
+
+function TheftInvestigation() {
+  const [environment, setEnvironment] = useState<Environment>('All');
+  const [risk, setRisk] = useState('All');
+  const [query, setQuery] = useState('');
+  const [selectedId, setSelectedId] = useState('SIM-001');
+  const [step, setStep] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const visible = filterInvestigations(environment, risk, query);
+  const selected = visible.find(item => item.id === selectedId) ?? visible[0];
+  const select = (id: string) => { setSelectedId(id); setStep(0); setPlaying(false); };
+  useEffect(() => { setStep(0); setPlaying(false); }, [environment, risk, query]);
+  useEffect(() => {
+    if (!playing) return;
+    const timer = window.setInterval(() => setStep(current => { if (current >= 3) { setPlaying(false); return 3; } return current + 1; }), 1600);
+    return () => window.clearInterval(timer);
+  }, [playing]);
+  const icons = [Building2, Gauge, Activity];
+  return <section className="investigation" aria-label="Theft investigation">
+    <div className="investigation-heading">
+      <div><p className="eyebrow mb-1">Incident intelligence</p><h2 className="investigation-title">Where it happens. How it unfolds.</h2><p className="investigation-note">Suspected data theft across AMI & SCADA — not electricity theft.</p></div>
+      <span className="investigation-badge"><ShieldAlert className="size-3" />Fictional locations & evidence · simulation</span>
+    </div>
+    <div className="investigation-filters">
+      <div className="investigation-segments" aria-label="Environment filter">{(['All', 'AMI', 'SCADA'] as const).map(env => <Button key={env} size="sm" variant="investigation" data-active={environment === env} aria-pressed={environment === env} onClick={() => setEnvironment(env)}>{env === 'All' ? 'All environments' : env}</Button>)}</div>
+      <select className="investigation-control" aria-label="Risk filter" value={risk} onChange={e => setRisk(e.target.value)}><option value="All">All risk levels</option><option value="HIGH">High risk</option><option value="MEDIUM">Medium risk</option></select>
+      <input className="investigation-control investigation-search" aria-label="Search incidents" placeholder="Search site, asset or account…" value={query} onChange={e => setQuery(e.target.value)} />
+      {(query || risk !== 'All' || environment !== 'All') && <Button variant="ghost" size="icon" title="Clear filters" aria-label="Clear filters" onClick={() => { setQuery(''); setRisk('All'); setEnvironment('All'); }}><X /></Button>}
+    </div>
+    {selected ? <div className="investigation-grid">
+      <div>
+        <div className="flex justify-between mb-3"><h3 className="text-sm font-medium">Affected network locations</h3><span className="text-xs text-muted-foreground">{visible.length} scenarios</span></div>
+        <div className="investigation-map" aria-label="Schematic of affected sites">
+          <svg viewBox="0 0 600 360" aria-hidden="true"><defs><pattern id="network-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" className="network-grid" /></pattern></defs><rect width="600" height="360" fill="url(#network-grid)" /><path className="network-zone" d="M75 55H530L550 280L470 320H100L55 240Z" /><path className="network-link" d="M144 100H444V252H144V100" /><path className={step > 0 ? 'network-link network-link-active' : 'network-link'} d="M144 100L444 252M444 100L144 252" /></svg>
+          {visible.map(item => { const index = item.id === 'SIM-001' ? 0 : item.id === 'SIM-002' ? 1 : 2; const Icon = icons[index] ?? Building2; return <div key={item.id} className={`site-node ${selected.id === item.id ? 'node-selected' : ''}`}><Button size="icon" variant="investigation" data-active={selected.id === item.id} aria-label={`Investigate ${item.site}`} aria-pressed={selected.id === item.id} onClick={() => select(item.id)}><Icon /></Button><span className="node-label">{item.site}</span></div>; })}
+          <div className="site-node"><Button variant="investigation" size="icon" aria-label="Show destination evidence" onClick={() => { setStep(3); setPlaying(false); }}><Globe /></Button><span className="node-label">Destination</span></div>
+          <span className="network-caption">Schematic · not geographic coordinates</span>
+        </div>
+        <dl className="investigation-facts"><div><dt>Affected asset</dt><dd>{selected.asset}</dd></div><div><dt>Account</dt><dd>{selected.actor}</dd></div><div><dt>Data at risk</dt><dd>{selected.resource}</dd></div><div><dt>Observed volume</dt><dd>{selected.volume} · simulated</dd></div></dl>
+        <div className="investigation-selection"><strong>{selected.risk === 'HIGH' ? 'Suspected transfer attempt' : 'Collection anomaly'}</strong><br />{selected.reason}. An alert is evidence for review, not proof of successful theft.</div>
+      </div>
+      <div className="investigation-detail">
+        <div className="flex items-start justify-between gap-3"><div><p className="eyebrow mb-1">{selected.id} · {selected.environment} · {selected.time}</p><h3>{selected.site}</h3></div><span className={selected.risk === 'HIGH' ? 'import-risk-high' : 'import-risk-medium'}>{selected.risk}</span></div>
+        <div className="investigation-playback"><Button variant="investigation" size="sm" aria-label={playing ? 'Pause replay' : 'Play replay'} onClick={() => { if (step === 3) setStep(0); setPlaying(value => !value); }}>{playing ? <Pause /> : <Play />}{playing ? 'Pause' : 'Replay incident'}</Button><Button size="icon" variant="ghost" title="Reset replay" aria-label="Reset replay" onClick={() => { setStep(0); setPlaying(false); }}><RotateCcw /></Button><span className="ml-auto text-xs text-muted-foreground">Step {step + 1} of 4</span></div>
+        <input className="investigation-range" type="range" min="0" max="3" step="1" value={step} aria-label="Incident timeline" onChange={e => { setStep(Number(e.target.value)); setPlaying(false); }} />
+        <div>{selected.stages.map((stage, i) => <div className="investigation-step" data-active={i === step} key={stage.title}><Button variant="ghost" size="icon" aria-label={`Show step ${i + 1}`} onClick={() => { setStep(i); setPlaying(false); }}><span className="investigation-step-number">{i + 1}</span></Button><div><p className="investigation-step-title">{stage.title}</p>{i === step && <p className="investigation-step-detail" role="status">{stage.detail}</p>}</div></div>)}</div>
+        <p className="investigation-note mt-4">Destination: {selected.destination}</p>
+      </div>
+    </div> : <div className="investigation-empty">No incidents match these filters.</div>}
+    <div className="investigation-table"><table><thead><tr><th>SCENARIO</th><th>LOCATION</th><th>ENVIRONMENT</th><th>RISK</th><th>DATA VOLUME</th><th /></tr></thead><tbody>{visible.map(item => <tr key={item.id} data-selected={selected?.id === item.id}><td className="font-mono">{item.id}</td><td>{item.site}</td><td>{item.environment}</td><td><span className={item.risk === 'HIGH' ? 'import-risk-high' : 'import-risk-medium'}>{item.risk}</span></td><td className="font-mono">{item.volume}</td><td><Button size="sm" variant="investigation" aria-label={`Open ${item.id}`} onClick={() => select(item.id)}>Investigate</Button></td></tr>)}</tbody></table></div>
+  </section>;
 }
