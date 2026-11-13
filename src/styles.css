@@ -153,3 +153,122 @@
     color: var(--color-foreground);
   }
 }
+
+/* site-import tokens: begin (generated; re-import replaces this block) */
+/* Imported clone roles use prefixed Tailwind utilities
+   (bg-site-import-primary, text-site-import-foreground, …); edit the
+   --site-import-* variables to restyle the clone. Unprefixed roles theme new UI. */
+:root {
+  --background: oklch(0.1802 0.03246 266.62);
+  --site-import-background: oklch(0.1802 0.03246 266.62);
+  --foreground: oklch(0.92876 0.01262 255.51);
+  --site-import-foreground: oklch(0.92876 0.01262 255.51);
+  --primary: oklch(0.75351 0.13899 232.66 / 0.35);
+  --site-import-primary: oklch(0.75351 0.13899 232.66 / 0.35);
+  --primary-foreground: oklch(0.145 0 0);
+  --site-import-primary-foreground: oklch(0.145 0 0);
+  --accent: oklch(0.75351 0.13899 232.66);
+  --site-import-accent: oklch(0.75351 0.13899 232.66);
+  --border: oklch(0.92876 0.01262 255.51 / 0.09);
+  --site-import-border: oklch(0.92876 0.01262 255.51 / 0.09);
+  --muted-foreground: oklch(0.71067 0.03511 256.79);
+  --site-import-muted-foreground: oklch(0.71067 0.03511 256.79);
+  --card: oklch(0.92876 0.01262 255.51 / 0.16);
+  --site-import-card: oklch(0.92876 0.01262 255.51 / 0.16);
+}
+/* Design tokens captured from the imported site, registered as Tailwind
+   utilities (bg-<name>, text-<name>, font-<name>). var() values live in
+   the imported stylesheet's :root. */
+@theme inline {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-site-import-background: var(--site-import-background);
+  --color-site-import-foreground: var(--site-import-foreground);
+  --color-site-import-primary: var(--site-import-primary);
+  --color-site-import-primary-foreground: var(--site-import-primary-foreground);
+  --color-site-import-accent: var(--site-import-accent);
+  --color-site-import-border: var(--site-import-border);
+  --color-site-import-muted-foreground: var(--site-import-muted-foreground);
+  --color-site-import-card: var(--site-import-card);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-grid-line: var(--grid-line);
+  --color-import-overlay: var(--import-overlay);
+  --color-info-foreground: var(--info-foreground);
+  --color-input: var(--input);
+  --color-muted: var(--muted);
+  --color-panel-raised: var(--panel-raised);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ring: var(--ring);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-success: var(--success);
+  --color-synthetic: var(--synthetic);
+}
+@theme reference {
+  --animate-pulse: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+  --animate-spin: spin 1s linear infinite;
+  --aspect-video: 16 / 9;
+  --color-accent: oklch(31% .045 258);
+  --color-background: oklch(18% .032 266.6);
+  --color-border: oklch(92.9% .013 255.5/.09);
+  --color-border-strong: oklch(92.9% .013 255.5/.16);
+  --color-chart-1: oklch(70.4% .123 182.5);
+  --color-chart-2: oklch(75.4% .139 232.7);
+  --color-chart-3: oklch(76.9% .165 70.1);
+  --color-chart-4: oklch(63.7% .208 25.3);
+  --color-chart-5: oklch(72% .05 256);
+  --color-chart-6: oklch(60% .1 210);
+  --color-foreground: oklch(92.9% .013 255.5);
+  --color-info: oklch(75.4% .139 232.7);
+  --color-muted-foreground: oklch(71.1% .035 256.8);
+  --color-popover: oklch(23.5% .04 260);
+  --color-popover-foreground: oklch(92.9% .013 255.5);
+  --color-primary: oklch(70.4% .123 182.5);
+  --color-risk-high: oklch(63.7% .208 25.3);
+  --color-risk-low: oklch(75.4% .139 232.7);
+  --color-risk-medium: oklch(76.9% .165 70.1);
+  --container-3xl: 48rem;
+  --container-lg: 32rem;
+  --container-md: 28rem;
+  --container-sm: 24rem;
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-weight-bold: 700;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --leading-relaxed: 1.625;
+  --leading-tight: 1.25;
+  --radius-lg: .5rem;
+  --shadow-panel: 0 1px 0 0 oklch(100% 0 0/.03) inset, 0 8px 24px -16px oklch(0% 0 0/.6);
+  --spacing: .25rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: calc(2 / 1.5);
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: 1;
+  --text-base: 1rem;
+  --text-base--line-height: calc(1.5 / 1);
+  --text-lg: 1.125rem;
+  --text-lg--line-height: calc(1.75 / 1.125);
+  --text-sm: .875rem;
+  --text-sm--line-height: calc(1.25 / .875);
+  --text-xl: 1.25rem;
+  --text-xl--line-height: calc(1.75 / 1.25);
+  --text-xs: .75rem;
+  --text-xs--line-height: calc(1 / .75);
+  --tracking-tight: -.025em;
+  --tracking-wide: .025em;
+  --tracking-widest: .1em;
+}
+/* site-import tokens: end */
