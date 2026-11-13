@@ -117,7 +117,7 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en" {...importedDocument?.html}>
       <head>
-        <style href="site-import-inline" precedence="imported-inline">{"@layer imported-inline;"}</style>
+        <style>{"@layer imported-inline;"}</style>
         <HeadContent />
       </head>
       <body {...importedDocument?.body}>
