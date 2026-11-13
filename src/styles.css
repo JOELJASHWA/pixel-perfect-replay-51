@@ -292,6 +292,7 @@
 .investigation-search { flex:1; min-width:160px; }
 .investigation-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:24px; }
 .investigation-map { position:relative; aspect-ratio:1.6; min-height:245px; overflow:hidden; border:1px solid var(--border); border-radius:6px; background:var(--investigation-surface); }
+.investigation-grid > div { min-width:0; }
 .investigation-map svg { position:absolute; inset:0; width:100%; height:100%; }
 .network-grid { stroke:var(--grid-line); stroke-width:1; }
 .network-link { stroke:var(--investigation-line); stroke-width:2; fill:none; stroke-dasharray:7 7; }
@@ -329,6 +330,7 @@
 @keyframes network-flow { to { stroke-dashoffset:-28; } }
 @media (max-width:767px) {
   .investigation-grid { grid-template-columns:minmax(0,1fr); }
+  .investigation-map { width:100%; aspect-ratio:auto; height:245px; }
   .import-sidebar[data-state=expanded] { display:block; position:fixed; z-index:40; inset:0 auto 0 0; width:288px; }
   .import-sidebar[data-state=expanded] > div:first-child { display:none; }
   .import-sidebar[data-state=expanded] > div:last-child { display:flex; width:288px; z-index:40; }
